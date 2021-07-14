@@ -21,7 +21,7 @@
         <span class="border">
             <?php 
                 // Write hyperlink with GET parameters.
-                echo '<a href="/quizzz-ckue/quiz-ckue/introduction.php?qid=1">INTRODUCTION</a>'; 
+                echo '<a href="/quizzz-ckue/templates/introduction.php?qid=1">INTRODUCTION</a>'; 
             ?>
         </span>
     </div>

@@ -46,12 +46,8 @@ class DBTransaction
     }
 
     public function insertTransaction($sql, $data)
-    {
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($data);
-        $this->last_insert_id = $this->pdo->lastInsertId();
-    }
-
+                
+    echo '<p>You have answered ' . $percentage . '% correctly.</p>';
     public function submitTransaction()
     {
         try {

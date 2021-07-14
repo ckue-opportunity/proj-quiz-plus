@@ -1,0 +1,22 @@
+{
+    "name": "php-pdo-opp",
+    "version": "1.0.0",
+    "description": "This is a simple LEMP stack setup to use with docker-compose. This setup should help you imitate php pdo and quickly get access to more knowledge.",
+    "main": "index.js",
+    "scripts": {
+      "sass:watch": "sass --watch $(pwd)/src/scss:$(pwd)/build/css"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/opportunity-zh/php-pdo-opp.git"
+    },
+    "author": "Anita Peyer",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/opportunity-zh/php-pdo-opp/issues"
+    },
+    "homepage": "https://github.com/opportunity-zh/php-pdo-opp#readme",
+    "devDependencies": {
+      "sass": "^1.34.1"
+    }
+  }

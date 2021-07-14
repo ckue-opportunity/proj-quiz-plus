@@ -35,9 +35,7 @@ function DBConnection() {
  * 
  * @return Pagedata in form of an associative array.
  */
-function introductionDataFromDB($quizID) {
-    if (TRACE_DB_ACCESS) print "<h1>INTRODUCTION DATA</h1>";
-        
+function introductionDataFromDB($quizID) {      
     // Prepare, bind and execute SELECT statement
     $query = DBConnection()->prepare("SELECT * FROM introduction WHERE quizID = ?");
     $query->bindValue(1, $quizID);
@@ -47,16 +45,15 @@ function introductionDataFromDB($quizID) {
     $data = $query->fetch(PDO::FETCH_ASSOC); // fetch() instead of fetchAll()
 
     if (TRACE_DB_ACCESS) {
-        var_dump($data);
+        print "<h1>INTRODUCTION DATA</h1>";
+        prettyEcho($data);
         echo '<p>-------------------------------------</p>'; // echo separator line
     }
 
     return $data;
 }
 
-function questionDataFromDB($quizID, $questionID) {
-    if (TRACE_DB_ACCESS) print "<h1>QUESTION DATA</h1>";
-                
+function questionDataFromDB($quizID, $questionID) {            
     // Prepare, bind and execute SELECT statement
     $query = DBConnection()->prepare("SELECT * FROM question WHERE quizID = ? AND id = ?");
     $query->bindValue(1, $quizID);
@@ -70,7 +67,8 @@ function questionDataFromDB($quizID, $questionID) {
     $data['answers'] = answerDataFromDB($questionID);
 
     if (TRACE_DB_ACCESS) {
-        var_dump($data);
+        print "<h1>QUESTION DATA</h1>";
+        prettyEcho($data);
         echo '<p>-------------------------------------</p>'; // echo separator line
     }
 
@@ -78,9 +76,7 @@ function questionDataFromDB($quizID, $questionID) {
 }
 
 function answerDataFromDB($questionID) {
-    if (TRACE_DB_ACCESS) print "<h1>ANSWER DATA</h1>";
-                
-    // Prepare, bind and execute SELECT statement
+// Prepare, bind and execute SELECT statement
     $query = DBConnection()->prepare("SELECT text, correct FROM answer WHERE questionID = ?");
     $query->bindValue(1, $questionID);
     $query->execute();
@@ -89,7 +85,8 @@ function answerDataFromDB($questionID) {
     $answers = $query->fetchAll(PDO::FETCH_ASSOC); 
 
     if (TRACE_DB_ACCESS) {
-        var_dump($answers);
+        print "<h1>ANSWER DATA</h1>";
+        prettyEcho($answers);
         echo '<p>-------------------------------------</p>'; // echo separator line
     }
 
@@ -97,8 +94,6 @@ function answerDataFromDB($questionID) {
 }
 
 function reportDataFromDB($quizID) {
-    if (TRACE_DB_ACCESS) print "<h1>REPORT DATA</h1>";
-        
     // Prepare, bind and execute SELECT statement
     $query = DBConnection()->prepare("SELECT * FROM report WHERE quizID = ?");
     $query->bindValue(1, $quizID);
@@ -108,11 +103,37 @@ function reportDataFromDB($quizID) {
     $data = $query->fetch(PDO::FETCH_ASSOC); // fetch() instead of fetchAll()
 
     if (TRACE_DB_ACCESS) {
-        var_dump($data);
+        print "<h1>REPORT DATA</h1>";
+        prettyEcho($data);
         echo '<p>-------------------------------------</p>'; // echo separator line
     }
 
     return $data;
+}
+
+function questionIdsFromDB($quizID) {
+    $query = DBConnection()->prepare("SELECT id FROM question WHERE quizID = ?");
+    $query->bindValue(1, $quizID);
+    $query->execute();
+
+    // Fetch array of all question ids
+    $questionIds = $query->fetchAll(PDO::FETCH_COLUMN, 0);
+
+    if (TRACE_DB_ACCESS) {
+        print "<h1>QESTION IDS</h1>";
+        prettyEcho($questionIds);
+        echo '<p>-------------------------------------</p>'; // echo separator line
+    }
+
+    return $questionIds;
+}
+
+function questionNumFromDB($quizID) {
+    return count( questionIdsFromDB($quizID) );
+}
+
+function prettyEcho($data) {
+    echo '<pre>' . var_export($data, true) . '</pre>';
 }
 
 ?>
