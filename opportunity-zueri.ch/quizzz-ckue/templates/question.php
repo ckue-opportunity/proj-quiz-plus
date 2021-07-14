@@ -43,7 +43,7 @@
             ?>
             </span>
             <form action="<?php echo $pageData['nextAction']; ?>" method="post">
-
+                <!--
                 <input type="radio" id="answer0" name="radio" 
                     value="<?php echo $pageData['answers'][0]['correct']; ?>">
                 <label for="answer0"><?php echo $pageData['answers'][0]['text']; ?></label><br>
@@ -54,7 +54,31 @@
 
                 <input type="radio" id="answer2" name="radio" 
                     value="<?php echo $pageData['answers'][2]['correct']; ?>">
-                <label for="answer2"><?php echo $pageData['answers'][2]['text']; ?></label><br><br>
+                <label for="answer2"><?php echo $pageData['answers'][2]['text']; ?></label><br>
+                -->
+
+                <br>
+
+<?php
+    // Generate HTML for each answer, using echo commands.
+    $answers = $pageData['answers'];
+    $answerCount = 0; // We need a counter to be able to identify each answer by 'id'.
+
+    foreach ($answers as $answer) {
+        // An answer is composed of a radio button ...
+        echo '<input type="radio" id="answer' . $answerCount . '" name="radio" value="' . $answer['correct'] . '">';
+        echo PHP_EOL; // echo a hard line break to format the generated HTML.
+
+        // ... a label ...
+        echo '<label for="answer' . $answerCount . '">' . $answer['text'] . '</label>';
+
+        // ... and a line break at the end.
+        echo '<br>' . PHP_EOL; // Also add a hard line break to format the generated HTML.
+
+        // prepare next answer id
+        $answerCount++;
+    }
+?>
 
                 <input type="hidden" name="nextQuestionID" 
                        value="<?php echo $pageData['nextQuestionID']; ?>">
