@@ -8,7 +8,7 @@ define('DB_PASSWORD', getenv('DB_PASSWORD'));
 define('DB_HOST', getenv('DB_HOST'));
 
 // Switch tracing on/off
-define('TRACE_DB_ACCESS', false);
+define('TRACE_DB_ACCESS', true);
 
 /**
  * Creates or reuses a single PDO connection object.
