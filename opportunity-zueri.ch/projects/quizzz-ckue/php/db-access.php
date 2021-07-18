@@ -2,13 +2,29 @@
 
 // Define DB constants
 // Use soft convention for constant names: capital letters plus '_'
-define('DB_NAME', getenv('DB_NAME'));
-define('DB_USER', getenv('DB_USER'));
-define('DB_PASSWORD', getenv('DB_PASSWORD'));
-define('DB_HOST', getenv('DB_HOST'));
+// Use !== false; strpos() may return Boolean or number >= 0
+if (strpos($_SERVER['HTTP_HOST'], 'localhost:') !== false) {
+    // DB runs in local Docker container.
+    define('DB_HOST', getenv('DB_HOST'));
+    define('DB_NAME', getenv('DB_NAME'));
+    define('DB_USER', getenv('DB_USER'));
+    define('DB_PASSWORD', getenv('DB_PASSWORD'));
+}
+else {
+    /* HOSTPOINT DB (ipiluwig_ck) ACCESS
 
-// Switch tracing on/off
-define('TRACE_DB_ACCESS', true);
+    Hostname: ipiluwig.mysql.db.internal
+    MySQL version: 10.3-MariaDB
+
+    DB:     ipiluwig_ck
+    User:   ipiluwig_01
+    Pwd:    mhkcT6BUZymW6e
+    */
+    define('DB_HOST', 'ipiluwig.mysql.db.internal');
+    define('DB_NAME', 'ipiluwig_ck');
+    define('DB_USER', 'ipiluwig_01');
+    define('DB_PASSWORD', 'mhkcT6BUZymW6e');
+}
 
 /**
  * Creates or reuses a single PDO connection object.
@@ -19,11 +35,22 @@ function DBConnection() {
 
     // PHP Data Objects Extension (PDO)
     // https://www.php.net/manual/de/book.pdo.php
-    $connection = new PDO(
-        'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', 
-        DB_USER, 
-        DB_PASSWORD
-    );
+    try {
+        $connection = new PDO(
+            'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', 
+            DB_USER, 
+            DB_PASSWORD
+        );
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        echo '<p>DB connection failed: ' . $e->getMessage() . '</p>';
+        echo 'HTTP_HOST = ' . $_SERVER['HTTP_HOST'] . '<br>';
+        echo 'DB_NAME = ' . DB_NAME . '<br>';
+        echo 'DB_USER = ' . DB_USER . '<br>';
+        echo 'DB_PASSWORD = ' . DB_PASSWORD . '<br>';
+        echo 'DB_HOST = ' . DB_HOST . '<br>';
+        exit;
+    }
 
     return $connection;
 }

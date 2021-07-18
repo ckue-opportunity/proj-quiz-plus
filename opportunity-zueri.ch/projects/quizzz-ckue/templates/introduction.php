@@ -1,13 +1,6 @@
 <?php
-    // start session and initialize achieved number of points
-    session_start();
-    
-    // Preset path to include folder
-    set_include_path($_SERVER['DOCUMENT_ROOT'] . '/quizzz-ckue/php');
-
-    // Page includes
-    include 'auth.php';
-    include 'db-access.php';
+    // Start session; configure and load standard includes
+    include '../config.php';
 
     // Get quiz id and register it in the session
     if (isset($_GET['qid'])) {
@@ -30,21 +23,15 @@
     // Initialize achieved number of points
     $_SESSION['achievedPoints'] = 0;
 ?>
-
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/quizzz-ckue/css/main.css">
-</head>
-
+<?php include 'head.php'; ?>
 <body>
     <div class="bgimg-1">
         <div class="caption">
             <span class="border">
             <?php
-                echo '<a href="/index.php">' . $pageData['title'] . '</a>'; 
+                echo '<p><a href="/index.php">&lt;&lt;</a>&nbsp;&nbsp;' . $pageData['title'] . '</p>'; 
             ?></span>
             <form action="<?php echo $pageData['nextAction']; ?>" method="post">
                 <input type="hidden" name="nextQuestionID" 
