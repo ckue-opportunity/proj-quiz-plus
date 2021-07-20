@@ -1,10 +1,9 @@
 <?php
 
-// Define DB constants
-// Use soft convention for constant names: capital letters plus '_'
-// Use !== false; strpos() may return Boolean or number >= 0
+// 'strpos' or 'string position'
+// Careful: Use !== false; strpos() may return Boolean or number >= 0
 if (strpos($_SERVER['HTTP_HOST'], 'localhost:') !== false) {
-    // DB runs in local Docker container.
+    // DB runs in local Docker container: localhost
     define('DB_HOST', getenv('DB_HOST'));
     define('DB_NAME', getenv('DB_NAME'));
     define('DB_USER', getenv('DB_USER'));
@@ -44,6 +43,7 @@ function DBConnection() {
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         echo '<p>DB connection failed: ' . $e->getMessage() . '</p>';
+
         echo 'HTTP_HOST = ' . $_SERVER['HTTP_HOST'] . '<br>';
         echo 'DB_NAME = ' . DB_NAME . '<br>';
         echo 'DB_USER = ' . DB_USER . '<br>';

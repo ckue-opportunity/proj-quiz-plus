@@ -16,7 +16,6 @@ function addLinks()
   }
 }
 
-
 ?>
 
 <!DOCTYPE html>
