@@ -25,12 +25,14 @@ else {
     define('DB_PASSWORD', 'mhkcT6BUZymW6e');
 }
 
+$_dbconnection = null;
+
 /**
  * Creates or reuses a single PDO connection object.
  */
 function DBConnection() {
     // Reuse single connection object if already available.
-    // if (isset($_dbconnection)) return $_dbconnection;
+    if (isset($_dbconnection)) return $_dbconnection;
 
     // PHP Data Objects Extension (PDO)
     // https://www.php.net/manual/de/book.pdo.php
@@ -54,6 +56,8 @@ function DBConnection() {
 
     return $connection;
 }
+
+// PROJECT SPECIFIC ---------------------------------------------------
 
 /**
  * Gets the data for the introduction page.
